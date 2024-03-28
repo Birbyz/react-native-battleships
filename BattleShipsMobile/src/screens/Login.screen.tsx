@@ -9,9 +9,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { NO_BACKGROUND_LOGO } from "../../constants/api.constants";
+import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
 import { useState } from "react";
-import { LoginFormType, emptyLoginForm } from "../../types/auth.types";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>();
