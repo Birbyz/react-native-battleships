@@ -1,0 +1,1 @@
+export const NO_BACKGROUND_LOGO = require('../../assets/logos/logo-no-background.png');
