@@ -5,31 +5,50 @@ import {
   Text,
   TextInput,
   Button,
-  Image
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { NO_BACKGROUND_LOGO } from "../../constants/api.constants";
-
-
+import { useState } from "react";
+import { LoginFormType, emptyLoginForm } from "../../types/auth.types";
 
 export default function LoginScreen() {
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const submitData = async () => {
+    console.log("aa");
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.container}>
         <Image source={NO_BACKGROUND_LOGO} style={styles.logo} />
 
-      <Text style={styles.labelView}>E-Mail</Text>
-      <View style={styles.inputView}>
-        <TextInput keyboardType="email-address" style={styles.textInput} />
-      </View>
+        <Text style={styles.labelView}>E-Mail</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            keyboardType="email-address"
+            style={styles.textInput}
+            onChangeText={setEmail}
+          />
+        </View>
 
-      <Text style={styles.labelView}>Password</Text>
-      <View style={styles.inputView}>
-        <TextInput secureTextEntry style={styles.textInput} />
-      </View>
+        <Text style={styles.labelView}>Password</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            secureTextEntry
+            style={styles.textInput}
+            onChangeText={setPassword}
+          />
+        </View>
 
-      <View style={styles.buttonView}>
-        <Button title="Log in!" />
-      </View>
-    </SafeAreaView>
+        <View style={styles.buttonView}>
+          <Button title="Log in!" onPress={() => submitData()} />
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -77,13 +96,13 @@ const styles = StyleSheet.create({
     borderColor: "#0056b3", // Border color
     shadowColor: "#000", // Shadow color
     shadowOffset: { width: 0, height: 2 }, // Shadow offset
-    shadowOpacity: 0.3, 
-    shadowRadius: 2, 
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
 
   logo: {
     marginBottom: 70,
     height: 180,
-    width: 250
-  }
+    width: 250,
+  },
 });
