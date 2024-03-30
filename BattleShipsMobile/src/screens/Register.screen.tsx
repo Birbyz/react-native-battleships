@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -11,10 +11,71 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import { LOGO_BLACK, NO_BACKGROUND_LOGO } from "../constants/api.constants";
+import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
+import { emptyNewUserType, newUserType } from "../types/user.types";
 
 export default function RegisterScreen() {
-  const [registerData, setRegisterData] = useState<any>();
+  const [registerData, setRegisterData] =
+    useState<newUserType>(emptyNewUserType);
+  const [errors, setErrors] = useState<Partial<newUserType>>({});
+  const [isRegisterDataValid, setIsRegisterDataValid] = useState(false);
+
+  useEffect(() => {
+    validateForm();
+  }, [registerData]);
+
+  const handleInputChange = async (fieldname: string, value: any) => {
+    setRegisterData({
+      ...registerData,
+      [fieldname]: value,
+    });
+  };
+
+  const validateForm = async () => {
+    let errors: Partial<newUserType> = {};
+
+    // Validate First Name
+    if (!registerData.first_name) {
+      errors.first_name = "First Name is required";
+    } else if (registerData.first_name.length < 3) {
+      errors.first_name = "First name must be at least 6 characters.";
+    }
+
+    // Validate Last Name
+    if (!registerData.last_name) {
+      errors.last_name = 'Last Name is required';
+    }  else if (registerData.last_name.length < 6) {
+      errors.last_name = "Last name must be at least 6 characters.";
+    }
+
+    // Validate email field
+    if (!registerData.email) {
+      errors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(registerData.email)) {
+      errors.email = "Email is invalid.";
+    }
+
+    // Validate phone field
+    if (!registerData.phone) {
+      errors.phone = " Phone number is required.";
+    } else if (registerData.phone.length !== 10) {
+      errors.phone = 'Phone number must have 10 numeric characters';
+    }
+
+    // Validate password field
+    if (!registerData.password) {
+      errors.password = "Password is required.";
+    } else if (registerData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters.";
+    }
+
+    setErrors(errors);
+    setIsRegisterDataValid(Object.keys(errors).length === 0);
+  };
+
+  const registerUser = async () => {
+    console.log(registerData);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -28,7 +89,7 @@ export default function RegisterScreen() {
           <View style={styles.inputView}>
             <TextInput
               style={styles.textInput}
-              //add On change
+              onChangeText={(e: string) => handleInputChange("first_name", e)}
             />
           </View>
           {/* end::firstName */}
@@ -36,7 +97,10 @@ export default function RegisterScreen() {
           {/* begin::LastName */}
           <Text style={styles.labelView}>Last Name</Text>
           <View style={styles.inputView}>
-            <TextInput style={styles.textInput} />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(e: string) => handleInputChange("last_name", e)}
+            />
           </View>
           {/* end::LastName */}
 
@@ -45,7 +109,7 @@ export default function RegisterScreen() {
           <View style={styles.inputView}>
             <TextInput
               style={styles.textInput}
-              //add On change
+              onChangeText={(e: string) => handleInputChange("username", e)}
             />
           </View>
           {/* end::username */}
@@ -56,7 +120,7 @@ export default function RegisterScreen() {
             <TextInput
               keyboardType="email-address"
               style={styles.textInput}
-              //add On change
+              onChangeText={(e: string) => handleInputChange("email", e)}
             />
           </View>
           {/* end::email */}
@@ -67,7 +131,7 @@ export default function RegisterScreen() {
             <TextInput
               keyboardType="numeric"
               style={styles.textInput}
-              //add On change
+              onChangeText={(e: string) => handleInputChange("phone", e)}
             />
           </View>
           {/* end::phone */}
@@ -78,13 +142,29 @@ export default function RegisterScreen() {
             <TextInput
               secureTextEntry
               style={styles.textInput}
-              //add On change
+              onChangeText={(e: string) => handleInputChange("password", e)}
             />
           </View>
           {/* end::password */}
 
+          <View style={styles.errorContainer}>
+            {Object.values(errors).map((error, index) => (
+              <Text key={index} style={styles.error}>
+                {error as string}
+              </Text>
+            ))}
+          </View>
+
           <View style={styles.buttonView}>
-            <Button title="Register" onPress={() => {}} />
+            {isRegisterDataValid ? (
+              <Button title="Register" onPress={() => registerUser()} />
+            ) : (
+              <Button
+                title="Register"
+                onPress={() => registerUser()}
+                disabled={true}
+              />
+            )}
           </View>
         </ScrollView>
         {/* end::form */}
@@ -153,5 +233,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 }, // Shadow offset
     shadowOpacity: 0.3,
     shadowRadius: 2,
-  }
+  },
+
+  errorContainer: {
+    marginTop: 12,
+    alignItems: "center",
+  },
+
+  error: {
+    color: "red",
+    marginBottom: 12,
+  },
 });

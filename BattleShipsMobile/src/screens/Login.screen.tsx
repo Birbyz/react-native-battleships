@@ -51,7 +51,7 @@ export default function LoginScreen() {
           <Button title="Log in!" onPress={() => submitData()} />
         </View>
         
-        <View style={{paddingTop: 30}}>
+        <View style={{paddingTop: 60}}>
           <Text style={styles.labelView}>Looking for a new account?</Text>
           <Button title="Register here!"
             onPress={() => navigation.navigate('Register')}
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 
   logo: {
     marginTop: 50,
-    marginBottom: 70,
+    marginBottom: 30,
     height: 180,
     width: 250,
   }
