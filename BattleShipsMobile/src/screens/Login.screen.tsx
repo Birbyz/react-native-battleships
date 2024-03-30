@@ -8,13 +8,17 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+
+  const navigation = useNavigation<any>();
 
   const submitData = async () => {
     console.log("aa");
@@ -46,6 +50,14 @@ export default function LoginScreen() {
         <View style={styles.buttonView}>
           <Button title="Log in!" onPress={() => submitData()} />
         </View>
+        
+        <View style={{paddingTop: 30}}>
+          <Text style={styles.labelView}>Looking for a new account?</Text>
+          <Button title="Register here!"
+            onPress={() => navigation.navigate('Register')}
+            />
+        </View>
+
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -53,15 +65,14 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    width: "70%",
+    flex: 1,
     alignItems: "center",
-    //paddingTop: 70,
   },
-
+  
   inputView: {
     borderRadius: 30,
     height: 50,
-    width: "100%",
+    width: "75%",
     gap: 15,
     paddingHorizontal: 15,
     marginBottom: 5,
@@ -91,17 +102,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 32,
     borderRadius: 50,
-    borderWidth: 2, // Border width
-    borderColor: "#0056b3", // Border color
-    shadowColor: "#000", // Shadow color
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    borderWidth: 2, 
+    borderColor: "#0056b3", 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
   },
 
   logo: {
+    marginTop: 50,
     marginBottom: 70,
     height: 180,
     width: 250,
-  },
+  }
 });
