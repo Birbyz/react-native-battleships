@@ -30,6 +30,9 @@ class UserController extends Controller
             return Response::json(['message' => 'Unable to save user']);
         }
 
-        return Response::json(['user' => $user]);
+        // create token
+        $token = $user->createToken('login');
+
+        return Response::json(['user' => $user, 'token' => $token]);
     }
 }
