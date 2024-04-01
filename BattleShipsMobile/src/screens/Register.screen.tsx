@@ -11,18 +11,24 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
 import { emptyNewUserType, newUserType } from "../types/user.types";
+import axios from "axios";
+import { registerRequest } from "../requests/user.requests";
+import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
+
+const BASE_HEADERS = {
+    "Content-Type": 'application/json',
+    "Accept": 'application/json'
+};
 
 export default function RegisterScreen() {
-  const [registerData, setRegisterData] =
-    useState<newUserType>(emptyNewUserType);
+  const [registerData, setRegisterData] = useState<newUserType>(emptyNewUserType);
   const [errors, setErrors] = useState<Partial<newUserType>>({});
-  const [isRegisterDataValid, setIsRegisterDataValid] = useState(false);
+  const [isRegisterDataValid, setIsRegisterDataValid] = useState(true);
 
-  useEffect(() => {
-    validateForm();
-  }, [registerData]);
+  // useEffect(() => {
+  //   validateForm();
+  // }, [registerData]);
 
   const handleInputChange = async (fieldname: string, value: any) => {
     setRegisterData({
@@ -32,34 +38,11 @@ export default function RegisterScreen() {
   };
 
   const validateForm = async () => {
-    let errors: Partial<newUserType> = {};
-
-    // Validate First Name
-    if (!registerData.first_name) {
-      errors.first_name = "First Name is required";
-    } else if (registerData.first_name.length < 3) {
-      errors.first_name = "First name must be at least 6 characters.";
-    }
-
-    // Validate Last Name
-    if (!registerData.last_name) {
-      errors.last_name = 'Last Name is required';
-    }  else if (registerData.last_name.length < 6) {
-      errors.last_name = "Last name must be at least 6 characters.";
-    }
-
     // Validate email field
     if (!registerData.email) {
       errors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(registerData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(registerData?.email)) {
       errors.email = "Email is invalid.";
-    }
-
-    // Validate phone field
-    if (!registerData.phone) {
-      errors.phone = " Phone number is required.";
-    } else if (registerData.phone.length !== 10) {
-      errors.phone = 'Phone number must have 10 numeric characters';
     }
 
     // Validate password field
@@ -74,7 +57,14 @@ export default function RegisterScreen() {
   };
 
   const registerUser = async () => {
-    console.log(registerData);
+    try {
+      const registerResponse = await registerRequest(registerData);
+      console.log(registerResponse)
+    } catch (error) {
+      console.log('NOTOK')
+    }
+
+    return;
   };
 
   return (
@@ -84,36 +74,6 @@ export default function RegisterScreen() {
 
         {/* begin::form */}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {/* begin::firstName */}
-          <Text style={styles.labelView}>First Name</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(e: string) => handleInputChange("first_name", e)}
-            />
-          </View>
-          {/* end::firstName */}
-
-          {/* begin::LastName */}
-          <Text style={styles.labelView}>Last Name</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(e: string) => handleInputChange("last_name", e)}
-            />
-          </View>
-          {/* end::LastName */}
-
-          {/* begin::username */}
-          <Text style={styles.labelView}>Username</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(e: string) => handleInputChange("username", e)}
-            />
-          </View>
-          {/* end::username */}
-
           {/* begin::email */}
           <Text style={styles.labelView}>E-Mail</Text>
           <View style={styles.inputView}>
@@ -124,17 +84,6 @@ export default function RegisterScreen() {
             />
           </View>
           {/* end::email */}
-
-          {/* begin::phone */}
-          <Text style={styles.labelView}>Phone Number</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              keyboardType="numeric"
-              style={styles.textInput}
-              onChangeText={(e: string) => handleInputChange("phone", e)}
-            />
-          </View>
-          {/* end::phone */}
 
           {/* begin::password */}
           <Text style={styles.labelView}>Password</Text>
@@ -163,6 +112,7 @@ export default function RegisterScreen() {
                 title="Register"
                 onPress={() => registerUser()}
                 disabled={true}
+                
               />
             )}
           </View>
