@@ -25,6 +25,7 @@ export default function RegisterScreen() {
   const [registerData, setRegisterData] = useState<newUserType>(emptyNewUserType);
   const [errors, setErrors] = useState<Partial<newUserType>>({});
   const [isRegisterDataValid, setIsRegisterDataValid] = useState(true);
+  const [token, setToken] = useState<string>('')
 
   // useEffect(() => {
   //   validateForm();
@@ -60,6 +61,8 @@ export default function RegisterScreen() {
     try {
       const registerResponse = await registerRequest(registerData);
       console.log(registerResponse)
+      const tokenResult = registerResponse?.id;
+      setToken(tokenResult);
     } catch (error) {
       console.log('NOTOK')
     }

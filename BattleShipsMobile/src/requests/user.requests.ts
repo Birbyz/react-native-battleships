@@ -19,6 +19,5 @@ export const registerRequest = async (registerData: newUserType) => {
     }),
   });
   const data = result.json();
-  console.log(data)
   return data;
 };
