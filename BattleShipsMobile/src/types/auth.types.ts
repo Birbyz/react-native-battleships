@@ -1,9 +1,9 @@
-export type LoginFormType = {
+export type RegisteredUserType = {
+    id: string,
     email: string,
-    password: string
 };
 
-export const emptyLoginForm: LoginFormType = {
-    email: '',
-    password: ''
+export const emptyRegisteredUserType: RegisteredUserType = {
+    id: '',
+    email: ''
 }

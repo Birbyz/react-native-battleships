@@ -11,14 +11,9 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
-import { UserType, emptyUserType } from "../types/user.types";
-import { AppContext } from "../context/app.context";
-
-const BASE_HEADERS = {
-    "Content-Type": 'application/json',
-    "Accept": 'application/json'
-};
+import { NO_BACKGROUND_LOGO } from "../../constants/api.constants";
+import { UserType, emptyUserType } from "../../types/user.types";
+import { AppContext } from "../../context/app.context";
 
 export default function RegisterScreen() {
   const [registerData, setRegisterData] = useState<UserType>(emptyUserType);
@@ -60,7 +55,6 @@ export default function RegisterScreen() {
   const registerUser = async () => {
     try {
       handleRegister(registerData)
-
     } catch (error) {
       console.log(`Something went wrong! ${error || ''}`);
     }

@@ -9,11 +9,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from "react-native";
-import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
+import { NO_BACKGROUND_LOGO } from "../../constants/api.constants";
 import { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { UserType, emptyUserType } from "../types/user.types";
-import { AppContext } from "../context/app.context";
+import { UserType, emptyUserType } from "../../types/user.types";
+import { AppContext } from "../../context/app.context";
 
 export default function LoginScreen() {
   const [loginData, setLoginData] = useState<UserType>(emptyUserType);
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   logo: {
     marginTop: 50,
     marginBottom: 30,
-    height: 180,
+    height: 250,
     width: 250,
   }
 });

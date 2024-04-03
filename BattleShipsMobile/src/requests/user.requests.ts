@@ -32,3 +32,14 @@ export const loginRequest = async (loginData: UserType) => {
 
   return data;
 }
+
+export const getUserRequest = async (id: string, email: string) => {
+  const result = await fetch(`${BACKEND_URL}/user/details/me?id=${id}&email=${email}`, {
+    method: 'GET',
+    headers: {
+      ...BASE_HEADERS
+    }
+  })
+  const data = result.json()
+  console.log(data)
+}
