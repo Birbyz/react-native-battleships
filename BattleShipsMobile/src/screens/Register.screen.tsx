@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -11,10 +11,9 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import { emptyNewUserType, newUserType } from "../types/user.types";
-import axios from "axios";
-import { registerRequest } from "../requests/user.requests";
 import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
+import { UserType, emptyUserType } from "../types/user.types";
+import { AppContext } from "../context/app.context";
 
 const BASE_HEADERS = {
     "Content-Type": 'application/json',
@@ -22,10 +21,11 @@ const BASE_HEADERS = {
 };
 
 export default function RegisterScreen() {
-  const [registerData, setRegisterData] = useState<newUserType>(emptyNewUserType);
-  const [errors, setErrors] = useState<Partial<newUserType>>({});
+  const [registerData, setRegisterData] = useState<UserType>(emptyUserType);
+  const [errors, setErrors] = useState<Partial<UserType>>({});
   const [isRegisterDataValid, setIsRegisterDataValid] = useState(true);
-  const [token, setToken] = useState<string>('')
+
+  const { handleRegister } = useContext<any>(AppContext)
 
   // useEffect(() => {
   //   validateForm();
@@ -59,15 +59,12 @@ export default function RegisterScreen() {
 
   const registerUser = async () => {
     try {
-      const registerResponse = await registerRequest(registerData);
-      console.log(registerResponse)
-      const tokenResult = registerResponse?.id;
-      setToken(tokenResult);
+      handleRegister(registerData)
+
     } catch (error) {
-      console.log('NOTOK')
+      console.log(`Something went wrong! ${error || ''}`);
     }
 
-    return;
   };
 
   return (

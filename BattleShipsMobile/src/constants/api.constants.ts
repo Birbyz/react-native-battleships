@@ -2,3 +2,8 @@ export const NO_BACKGROUND_LOGO = require('../../assets/logos/logo-no-background
 export const LOGO_BLACK = require('../../assets/logos/logo-black.png');
 
 export const BACKEND_URL = 'https://malamute-enabled-yak.ngrok-free.app';
+export const BASE_HEADERS = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  };
+  

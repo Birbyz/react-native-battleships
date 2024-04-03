@@ -7,22 +7,35 @@ import {
   Button,
   Image,
   TouchableWithoutFeedback,
-  Keyboard,
-  TouchableOpacity,
+  Keyboard
 } from "react-native";
 import { NO_BACKGROUND_LOGO } from "../constants/api.constants";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { UserType, emptyUserType } from "../types/user.types";
+import { AppContext } from "../context/app.context";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [loginData, setLoginData] = useState<UserType>(emptyUserType);
 
+  const { handleLogin } = useContext<any>(AppContext)
   const navigation = useNavigation<any>();
 
-  const submitData = async () => {
-    console.log("aa");
+  const handleInputChange = async (fieldname: string, value: any) => {
+    setLoginData({
+      ...loginData,
+      [fieldname]: value,
+    });
   };
+
+  const submitData = async () => {
+    try {
+      handleLogin(loginData)
+    } catch (error) {
+      console.log(`Something went wrong! ${error || ''}`);
+    }
+  };
+  
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -34,7 +47,7 @@ export default function LoginScreen() {
           <TextInput
             keyboardType="email-address"
             style={styles.textInput}
-            onChangeText={setEmail}
+            onChangeText={(e: string) => handleInputChange("email", e)}
           />
         </View>
 
@@ -43,7 +56,7 @@ export default function LoginScreen() {
           <TextInput
             secureTextEntry
             style={styles.textInput}
-            onChangeText={setPassword}
+            onChangeText={(e: string) => handleInputChange("password", e)}
           />
         </View>
 
