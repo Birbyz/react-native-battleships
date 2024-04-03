@@ -1,4 +1,6 @@
 export interface IGameContainerItem {
     id: number,
-    status: string
+    status: string,
+    onPress?: () => void
+    // onPress?: any
 }

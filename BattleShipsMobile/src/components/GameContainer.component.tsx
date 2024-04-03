@@ -1,9 +1,13 @@
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { IGameContainerItem } from "../interfaces/game.interface";
 
-const GameContainer: React.FC<IGameContainerItem> = ({ id, status }) => {
+const GameContainer: React.FC<IGameContainerItem> = ({
+  id,
+  status,
+  onPress,
+}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
         <Text style={styles.gameText}>
           {id} | {status}
@@ -21,13 +25,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    backgroundColor: "lightgreen", 
-    borderColor: "black", 
-    borderWidth: 2, 
+    backgroundColor: "lightgreen",
+    borderColor: "black",
+    borderWidth: 2,
   },
 
   gameText: {
     marginTop: 10,
-    marginBottom: 10, 
+    marginBottom: 10,
   },
 });
