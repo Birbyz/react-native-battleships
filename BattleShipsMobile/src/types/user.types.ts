@@ -1,11 +1,9 @@
-export type newUserType = {
-  id: number;
+export type UserType = {
   email: string;
   password: string;
 };
 
-export const emptyNewUserType: newUserType = {
-  id: 0,
+export const emptyUserType: UserType = {
   email: "",
   password: "",
 };
