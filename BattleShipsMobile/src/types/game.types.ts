@@ -1,4 +1,4 @@
-export const enum GameRouteType {
-    TABLE = 'TABLE',
-    LOBBY = 'LOBBY'
+export const enum GameScreensEnum {
+    TABLE = 'Table',
+    MENU = 'Menu'
 }

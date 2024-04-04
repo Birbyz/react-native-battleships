@@ -12,7 +12,7 @@ import { AppContext } from "../../context/app.context";
 import { NO_BACKGROUND_LOGO } from "../../constants/api.constants";
 import GameContainer from "../../components/GameContainer.component";
 import { useNavigation } from "@react-navigation/native";
-import { GameRouteType } from "../../types/game.types";
+import { GameScreensEnum } from "../../types/game.types";
 
 const MenuScreen = () => {
   const [total, setTotal] = useState<number>(0);
@@ -47,14 +47,14 @@ const MenuScreen = () => {
         <View style={styles.gameContainer}>
           {games &&
             games.map((item) => (
-              <View style={{ paddingBottom: 5 }}>
+              <View style={{ paddingBottom: 5 }} key={item.id}>
                 <GameContainer
                   key={item.id}
                   status={item.status}
                   id={item.id}
                   onPress={() => {
                     console.log('aa')
-                    navigation.navigate(GameRouteType.TABLE, {gameId: game.id})
+                    navigation.navigate(GameScreensEnum.TABLE, {gameId: item.id})
                   }}
                 />
               </View>
