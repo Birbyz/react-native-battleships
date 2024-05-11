@@ -14,7 +14,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "@types/react": "~18.2.45",
     "axios": "^1.6.8",
-    "expo": "~50.0.14",
+    "expo": "^51.0.2",
     "expo-status-bar": "~1.11.1",
     "formik": "^2.4.5",
     "formik-mui": "^5.0.0-alpha.0",
