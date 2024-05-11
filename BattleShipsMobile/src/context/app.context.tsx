@@ -38,9 +38,16 @@ function AppProvider(props) {
     }
   };
 
+  const handleLogout = () => {
+    setJwt(null)
+    setId(null)
+    setUser(null)
+  }
+
   const store = {
     handleLogin,
     handleRegister,
+    handleLogout,
     jwt,
     id,
     user

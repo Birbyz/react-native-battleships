@@ -13,9 +13,11 @@ import {
 import { AppContext } from "../../context/app.context";
 import { AVATAR_LOGO } from "../../constants/api.constants";
 import { useNavigation } from "@react-navigation/native";
+import { GameScreensEnum } from "../../types/game.types";
+import { AuthScreensEnum } from "../../types/auth.types";
 
 const ProfileScreen = () => {
-  const { user } = useContext<any>(AppContext);
+  const { user, handleLogout } = useContext<any>(AppContext);
   const navigation = useNavigation<any>();
 
   return (
@@ -34,7 +36,14 @@ const ProfileScreen = () => {
       <View style={{ paddingTop: 60 }}>
         <Button
           title="See Games!"
-          onPress={() => navigation.navigate("Menu")}
+          onPress={() => navigation.navigate(GameScreensEnum.MENU)}
+        />
+        <Button
+          title="Log out!"
+          onPress={() => {
+            handleLogout();
+            navigation.navigate(AuthScreensEnum.LOGIN)
+          }}
         />
       </View>
     </SafeAreaView>

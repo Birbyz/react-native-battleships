@@ -5,9 +5,21 @@ export const getGamesRequest = async (jwt: string) => {
     method: "GET",
     headers: {
       ...BASE_HEADERS,
-      Authorization: `Bearer ${jwt}`
+      'Authorization': `Bearer ${jwt}`
     },
   });
   const data = result.json();
   return data
 };
+
+export const createGameRequest = async (jwt: string, gameId: number) => {
+  const result = await fetch(`${BACKEND_URL}/game`, {
+    method: 'POST',
+    headers: {
+      ...BASE_HEADERS,
+      'Authorization': `Bearer ${jwt}`
+    }
+  })
+
+  console.log(result)
+}
